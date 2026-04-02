@@ -1,0 +1,8 @@
+.env
+.git
+__pycache__/
+*.pyc
+venv/
+miniconda3/
+backend/database/local_qdrant/
+qdrant_data/

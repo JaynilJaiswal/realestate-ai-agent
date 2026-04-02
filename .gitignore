@@ -1,0 +1,7 @@
+.env
+*.csv
+backend/database/local_qdrant
+qdrant_data/
+
+.vscode
+__pycache__
