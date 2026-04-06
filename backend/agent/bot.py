@@ -16,6 +16,8 @@ from backend.agent.tools import (
     extract_text_from_url
 )
 
+from backend.agent.telemetry import HandsOnObservability
+
 load_dotenv()
 
 class State(TypedDict):
@@ -67,7 +69,12 @@ agent_graph = builder.compile(checkpointer=memory)
 
 # --- EXECUTION WRAPPER ---
 def chat_with_agent(user_query: str, session_id: str = "default_user") -> str:
-    config = {"configurable": {"thread_id": session_id}}
+    config = {
+        "configurable": {
+            "thread_id": session_id
+        },
+        "callbacks": [HandsOnObservability(session_id=session_id)]
+    }
     
     events = agent_graph.stream(
         {"messages": [("user", user_query)]}, 

@@ -44,6 +44,27 @@ services:
     networks:
       - agent_network
 
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - "8081"
+    networks:
+      - agent_network
+
+  grafana:
+    image: grafana/grafana-enterprise:latest
+    ports:
+      - "3000:3000"
+    environment:
+      # URL where Grafana sends render requests
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      # URL where Renderer sends images back to Grafana
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+      # Default auth token (must match between both if customized)
+      GF_RENDERING_RENDERER_TOKEN: "-"
+    networks:
+      - agent_network
+
 networks:
   agent_network:
     driver: bridge

@@ -5,3 +5,7 @@ qdrant_data/
 
 .vscode
 __pycache__
+
+openai.txt
+real-estate-agent_api_key.txt
+realestate-agent-portfolio-b751157b124e.json

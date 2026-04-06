@@ -37,8 +37,12 @@ def get_client() -> QdrantClient:
         # Fetch the URL directly inside the function to ensure it catches 
         # any variables set by load_dotenv() or the terminal right before execution.
         qdrant_url = os.getenv("QDRANT_URL")
+        qdrant_api_key = os.getenv("QDRANT_API_KEY")    
         
-        if qdrant_url:
+        if qdrant_url and qdrant_api_key:
+            # Connect to Managed Qdrant Cloud
+            _client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
+        elif qdrant_url:
             print(f"Connecting to Qdrant network service at: {qdrant_url}")
             _client = QdrantClient(url=qdrant_url)
         else:
