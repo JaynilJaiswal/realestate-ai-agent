@@ -19,11 +19,15 @@ services:
       dockerfile: backend/Dockerfile
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./realestate-agent-portfolio-b751157b124e.json:/app/gcp-key.json:ro
     environment:
       # Pass the Groq API key from your local .env file into the container
       - GROQ_API_KEY=${GROQ_API_KEY}
       - QDRANT_URL=http://qdrant:6333
       - HF_TOKEN=${HF_TOKEN}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/gcp-key.json
     depends_on:
       - qdrant
     networks:
@@ -36,6 +40,8 @@ services:
       dockerfile: frontend/Dockerfile
     ports:
       - "8501:8501"
+    volumes:
+      - ./frontend:/app/frontend
     environment:
       # Tell Streamlit how to talk to the backend container across the Docker network
       - API_URL=http://backend:8000/api/v1/query
